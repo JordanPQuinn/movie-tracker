@@ -4,7 +4,11 @@ export const userReducer = (state = {}, action) => {
     case 'LOG_IN':
       return action.user;
     case 'SIGN_OUT':
-      return {};
+      const noFavorites = action.films.map( film => {
+        delete film.favorited;
+        return film;
+      })
+      return { user: {}, films: [noFavorites] };
     case 'ADD_FAVORITE':
       return { ...state, favorites: [...state.favorites, action.film] };
     case 'REMOVE_FAVORITE':

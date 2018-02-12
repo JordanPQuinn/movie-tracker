@@ -53,11 +53,12 @@ Header.propTypes = {
 };
 
 export const mapStateToProps = store => ({
-  user: store.user
+  user: store.user,
+  films: store.films
 });
 
 export const mapDispatchToProps = dispatch => ({
-  signOut: user => dispatch(signOut(user))
+  signOut: (user, films) => dispatch(signOut(user, films))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

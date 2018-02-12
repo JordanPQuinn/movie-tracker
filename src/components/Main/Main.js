@@ -8,6 +8,15 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 export const Main = props => {
+  let ensureFavoriteStyles;
+  if(props.user.favorites) {
+    
+    ensureFavoriteStyles = props.user.favorites.map( film => {
+      film.favorited = 'favorited';
+      return film;
+    });
+  }
+
   return (
     <main>
       <Switch>
@@ -28,7 +37,7 @@ export const Main = props => {
           path="/favorites"
           render={() =>
             props.user.name ? 
-              <CardContainer films={props.user.favorites} /> : 
+              <CardContainer films={ensureFavoriteStyles || []} /> : 
               <Redirect to="/" />
           }
         />

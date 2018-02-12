@@ -8,31 +8,31 @@ import './CardContainer.css';
 
 export class CardContainer extends Component {
   handleFavorite = filmId => {
-    const { user } = this.props;
+    const { user, films } = this.props;
     const foundInUser = user.favorites.find(film => {
+      return film.movie_id === parseInt(filmId);
+    });
+    const filmInState = films.find(film => {
       return film.movie_id === parseInt(filmId);
     });
 
     if (foundInUser) {
-      this.handleRemoveFavorite(foundInUser);
+      this.handleRemoveFavorite(foundInUser, filmInState);
     } else {
-      this.handleAddFavorite(filmId);
+      this.handleAddFavorite(filmId, filmInState);
     }
   };
 
-  handleAddFavorite = filmId => {
-    const { user, films, addFavorite } = this.props;
-    const filmInState = films.find(film => {
-      return film.movie_id === parseInt(filmId);
-    });
+  handleAddFavorite = (filmId, filmInState) => {
+    const { user, addFavorite } = this.props;
     filmInState.favorited = 'favorited';
     addFavorite(filmInState);
     sendFavorite(user, filmInState);
   };
 
-  handleRemoveFavorite = foundInUser => {
+  handleRemoveFavorite = (foundInUser, filmInState) => {
     const { user, removeFavorite } = this.props;
-    delete foundInUser.favorited;
+    delete filmInState.favorited && delete foundInUser.favorited
     removeFavorite(foundInUser);
     deleteFavorite(user, foundInUser);
   };
